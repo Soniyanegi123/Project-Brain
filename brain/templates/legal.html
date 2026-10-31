@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page_title }} | Project Brain</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="legal-page">
+        <a href="{{ url_for('index') }}">Back to Project Brain</a>
+        <h1>{{ page_title }}</h1>
+        {% if page_kind == "privacy" %}
+        <h2>Data handling</h2>
+        <p>Project Brain stores imported repository records and source files in its configured SQLite database. Treat that database as sensitive project data.</p>
+        <h2>External services</h2>
+        <p>When an OpenAI API key is configured, retrieved evidence and questions are sent to OpenAI for embeddings and answer synthesis. GitHub imports make requests to GitHub services. Do not index confidential code unless your team has approved those services and settings.</p>
+        <h2>Retention</h2>
+        <p>Data remains in the local database until it is replaced or deleted by the operator. This prototype does not provide user-level retention controls.</p>
+        {% else %}
+        <h2>Prototype terms</h2>
+        <p>Project Brain is a hackathon prototype. Its retrieval, dependency, impact, decision, and contributor-risk outputs are estimates that require engineering review.</p>
+        <h2>Use of repository data</h2>
+        <p>Only import repositories you are authorized to process. The operator is responsible for access control, secrets management, and compliance with third-party API terms.</p>
+        {% endif %}
+    </main>
+</body>
+</html>

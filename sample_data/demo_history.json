@@ -1,0 +1,33 @@
+[
+  {
+    "id": "commit-a12f",
+    "kind": "commit",
+    "title": "Add role-based access control",
+    "source": "Sample history is seeded automatically by app.py"
+  },
+  {
+    "id": "issue-12",
+    "kind": "issue",
+    "title": "Prevent viewers from editing workspace settings"
+  },
+  {
+    "id": "pr-18",
+    "kind": "pull_request",
+    "title": "PR #18: Enforce workspace permissions"
+  },
+  {
+    "id": "commit-b77c",
+    "kind": "commit",
+    "title": "Cache repository summary for dashboard"
+  },
+  {
+    "id": "issue-27",
+    "kind": "issue",
+    "title": "Dashboard is slow on large repositories"
+  },
+  {
+    "id": "commit-c91d",
+    "kind": "commit",
+    "title": "Add dependency map for notification service"
+  }
+]

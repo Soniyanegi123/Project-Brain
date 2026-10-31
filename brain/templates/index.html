@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Project Brain | Engineering Memory</title>
+
+    <meta name="description"
+          content="Project Brain - AI Engineering Memory and Change Intelligence">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+
+    <link rel="icon"
+          href="{{ url_for('static', filename='favicon.svg') }}"
+          type="image/svg+xml">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <script src="{{ url_for('static', filename='app.js') }}"
+            defer></script>
+</head>
+
+<body>
+
+<div class="app-shell">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">B</div>
+
+            <div class="brand-text">
+                <h2>Project Brain</h2>
+                <span>Engineering Intelligence</span>
+            </div>
+        </div>
+
+        <div class="sidebar-label">WORKSPACE</div>
+
+        <nav class="navigation">
+
+            <button class="nav-item active"
+                    data-view="overview"
+                    onclick="showView('overview')">
+                <span class="nav-icon">▦</span>
+                Overview
+            </button>
+
+            <button class="nav-item"
+                    data-view="history"
+                    onclick="showView('history')">
+                <span class="nav-icon">◷</span>
+                Project History
+            </button>
+
+            <button class="nav-item"
+                    data-view="memory"
+                    onclick="showView('memory')">
+                <span class="nav-icon">⌘</span>
+                Knowledge Graph
+            </button>
+
+            <button class="nav-item"
+                    data-view="decisions"
+                    onclick="showView('decisions')">
+                <span class="nav-icon">◇</span>
+                Decision Memory
+            </button>
+
+            <button class="nav-item"
+                    data-view="ask"
+                    onclick="showView('ask')">
+                <span class="nav-icon">✳</span>
+                Ask Project Brain
+            </button>
+
+            <button class="nav-item"
+                    data-view="impact"
+                    onclick="showView('impact')">
+                <span class="nav-icon">⌁</span>
+                Change Impact
+            </button>
+
+            <button class="nav-item"
+                    data-view="risk"
+                    onclick="showView('risk')">
+                <span class="nav-icon">△</span>
+                Knowledge Risk
+            </button>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+
+            <div class="topbar-left">
+                <span class="breadcrumb">Project Brain</span>
+                <span class="breadcrumb-separator">/</span>
+                <strong id="page-title">Overview</strong>
+            </div>
+
+            <div class="top-actions">
+
+                <label for="themeSelect" class="theme-label">
+                    Theme
+                </label>
+
+                <select id="themeSelect"
+                        class="theme-select"
+                        aria-label="Choose dashboard theme">
+                    <option value="midnight">Midnight Blue</option>
+                    <option value="light">Light</option>
+                    <option value="purple">Purple</option>
+                    <option value="forest">Forest</option>
+                    <option value="rose">Rose</option>
+                </select>
+
+                <button class="button button-secondary"
+                        onclick="resetDemo()">
+                    Reset Demo
+                </button>
+
+                {% if access_control_enabled %}
+                <form action="{{ url_for('logout') }}" method="post">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <button class="button button-secondary" type="submit">
+                        Sign out
+                    </button>
+                </form>
+                {% endif %}
+
+            </div>
+
+        </header>
+
+
+        <!-- PAGE CONTENT -->
+        <div class="page">
+
+
+            <!-- ================================= -->
+            <!-- OVERVIEW -->
+            <!-- ================================= -->
+
+            <section class="view active" id="view-overview">
+
+                <div class="page-heading">
+
+                    <div>
+                        <div class="eyebrow">ENGINEERING MEMORY PLATFORM</div>
+
+                        <h1>Project Overview</h1>
+
+                        <p>
+                            Understand your project's history, decisions,
+                            dependencies and engineering knowledge.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <!-- STATISTICS -->
+
+                <div class="stats-grid">
+
+                    <article class="stat-card">
+                        <div class="stat-label">Total Records</div>
+                        <div class="stat-value" id="stat-items">0</div>
+                        <div class="stat-description">
+                            Indexed project history
+                        </div>
+                    </article>
+
+                    <article class="stat-card">
+                        <div class="stat-label">Indexed Files</div>
+                        <div class="stat-value" id="stat-files">0</div>
+                        <div class="stat-description">
+                            Source and documentation files
+                        </div>
+                    </article>
+
+                    <article class="stat-card">
+                        <div class="stat-label">Contributors</div>
+                        <div class="stat-value" id="stat-contributors">0</div>
+                        <div class="stat-description">
+                            Identified project contributors
+                        </div>
+                    </article>
+
+                    <article class="stat-card">
+                        <div class="stat-label">Pull Requests</div>
+                        <div class="stat-value" id="stat-prs">0</div>
+                        <div class="stat-description">
+                            Imported pull requests
+                        </div>
+                    </article>
+
+                </div>
+
+
+                <!-- REPOSITORY CONNECTION -->
+
+                <div class="section-heading">
+                    <div>
+                        <h2>Connect a Repository</h2>
+                        <p>
+                            Import project history and source code
+                            to build engineering memory.
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="connection-grid">
+
+                    <!-- GITHUB -->
+
+                    <article class="panel connection-card">
+
+                        <div class="connection-icon">GH</div>
+
+                        <h3>GitHub Repository</h3>
+
+                        <p>
+                            Import commits, issues, pull requests
+                            and available source files.
+                        </p>
+
+                        <label for="github-repo">
+                            GitHub repository URL
+                        </label>
+
+                        <input
+                            type="text"
+                            id="github-repo"
+                            placeholder="https://github.com/username/repository-name"
+                        >
+
+                        <button class="button button-primary button-full"
+                                onclick="ingestGithub()">
+                            Connect GitHub
+                        </button>
+
+                    </article>
+
+
+                    <!-- ZIP UPLOAD -->
+
+                    <article class="panel connection-card">
+
+                        <div class="connection-icon">ZIP</div>
+
+                        <h3>Upload Project ZIP</h3>
+
+                        <p>
+                            Upload your project source code and
+                            documentation for indexing.
+                        </p>
+
+                        <label for="repo-zip">
+                            Select ZIP file
+                        </label>
+
+                        <input
+                            type="file"
+                            id="repo-zip"
+                            accept=".zip"
+                        >
+
+                        <button class="button button-primary button-full"
+                                onclick="uploadRepo()">
+                            Upload and Index
+                        </button>
+
+                    </article>
+
+                </div>
+
+
+                <div id="ingest-message"
+                     class="message-box"
+                     role="status"
+                     aria-live="polite">
+                </div>
+
+
+                <!-- INDEXING COVERAGE -->
+
+                <div class="section-heading">
+                    <div>
+                        <h2>Knowledge Coverage</h2>
+                        <p>
+                            Overview of the information indexed
+                            in your workspace.
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="panel coverage-panel">
+
+                    <div class="coverage-row">
+
+                        <div class="coverage-item">
+                            <div class="coverage-top">
+                                <span>Commits</span>
+                                <strong id="count-commits">0</strong>
+                            </div>
+
+                            <div class="progress-track">
+                                <div class="progress-bar"
+                                     id="bar-commits"></div>
+                            </div>
+                        </div>
+
+
+                        <div class="coverage-item">
+                            <div class="coverage-top">
+                                <span>Issues and PRs</span>
+                                <strong id="count-issues">0</strong>
+                            </div>
+
+                            <div class="progress-track">
+                                <div class="progress-bar"
+                                     id="bar-issues"></div>
+                            </div>
+                        </div>
+
+
+                        <div class="coverage-item">
+                            <div class="coverage-top">
+                                <span>Documents</span>
+                                <strong id="count-documents">0</strong>
+                            </div>
+
+                            <div class="progress-track">
+                                <div class="progress-bar"
+                                     id="bar-documents"></div>
+                            </div>
+                        </div>
+
+
+                        <div class="coverage-item">
+                            <div class="coverage-top">
+                                <span>Source Files</span>
+                                <strong id="count-files">0</strong>
+                            </div>
+
+                            <div class="progress-track">
+                                <div class="progress-bar"
+                                     id="bar-files"></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RECENT ACTIVITY -->
+
+                <div class="section-heading">
+                    <div>
+                        <h2>Recent Project Activity</h2>
+                        <p>
+                            Recently imported engineering records.
+                        </p>
+                    </div>
+
+                    <button class="text-button"
+                            onclick="showView('history')">
+                        View all →
+                    </button>
+                </div>
+
+
+                <div class="panel">
+                    <div id="recent-list" class="activity-list">
+                        <div class="empty-state">
+                            No project activity yet. Import a GitHub repository or upload a ZIP to get started.
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+
+
+            <!-- ================================= -->
+            <!-- PROJECT HISTORY -->
+            <!-- ================================= -->
+
+            <section class="view" id="view-history">
+
+                <div class="page-heading">
+
+                    <div>
+                        <div class="eyebrow">PROJECT TIMELINE</div>
+                        <h1>Project History</h1>
+
+                        <p>
+                            Explore the historical records that
+                            explain how your project evolved.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="panel search-panel">
+
+                    <label for="history-search">
+                        Search project history
+                    </label>
+
+                    <div class="search-row">
+
+                        <input
+                            type="search"
+                            id="history-search"
+                            placeholder="Search commits, issues, files or decisions..."
+                        >
+
+                        <button class="button button-primary"
+                                onclick="searchHistory()">
+                            Search
+                        </button>
+
+                        <button class="button button-secondary"
+                                onclick="loadHistory()">
+                            Clear
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="section-heading">
+                    <div>
+                        <h2>Historical Records</h2>
+                        <p>
+                            Commits, issues, pull requests and documents.
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="panel">
+                    <div id="history-list" class="activity-list">
+                        <div class="empty-state">
+                            No history loaded.
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+
+
+            <!-- ================================= -->
+            <!-- KNOWLEDGE GRAPH -->
+            <!-- ================================= -->
+
+            <section class="view" id="view-memory">
+
+                <div class="page-heading">
+
+                    <div>
+                        <div class="eyebrow">CONNECTED ENGINEERING KNOWLEDGE</div>
+
+                        <h1>Knowledge Graph</h1>
+
+                        <p>
+                            Explore relationships between project records
+                            and source files.
+                        </p>
+                    </div>
+
+                    <button class="button button-secondary"
+                            onclick="loadGraph()">
+                        Refresh Graph
+                    </button>
+
+                </div>
+
+
+                <div class="graph-legend panel">
+
+                    <span class="legend-item">
+                        <span class="legend-dot legend-decision"></span>
+                        Decisions
+                    </span>
+
+                    <span class="legend-item">
+                        <span class="legend-dot legend-commit"></span>
+                        Commits
+                    </span>
+
+                    <span class="legend-item">
+                        <span class="legend-dot legend-file"></span>
+                        Files
+                    </span>
+
+                    <span class="legend-item">
+                        <span class="legend-dot legend-document"></span>
+                        Documents
+                    </span>
+
+                    <span class="legend-item">
+                        <span class="legend-dot legend-issue"></span>
+                        Issues / PRs
+                    </span>
+
+                    <span class="legend-item">
+                        <span class="legend-dot legend-component"></span>
+                        Components
+                    </span>
+
+                </div>
+
+
+                <div class="panel graph-panel">
+
+                    <div class="graph-header">
+                        <div>
+                            <h2>Project Relationships</h2>
+                            <span id="graph-count" class="muted-text">
+                                Loading project relationships...
+                            </span>
+                        </div>
+
+                        <div class="graph-view-actions">
+                            <button class="button button-secondary"
+                                    type="button"
+                                    onclick="fitGraphView()">
+                                Fit to Screen
+                            </button>
+                            <button class="button button-secondary"
+                                    type="button"
+                                    onclick="resetGraphView()">
+                                Reset View
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="graph-controls">
+                        <label class="graph-search">
+                            <span class="sr-only">Search graph nodes</span>
+                            <input id="graph-search"
+                                   type="search"
+                                   placeholder="Search decisions, files, commits..."
+                                   autocomplete="off">
+                        </label>
+
+                        <div class="graph-filters"
+                             role="group"
+                             aria-label="Filter graph node types">
+                            <button type="button" class="graph-filter active"
+                                    data-graph-filter="decision" aria-pressed="true">Decisions</button>
+                            <button type="button" class="graph-filter active"
+                                    data-graph-filter="file" aria-pressed="true">Files</button>
+                            <button type="button" class="graph-filter active"
+                                    data-graph-filter="component" aria-pressed="true">Components</button>
+                            <button type="button" class="graph-filter active"
+                                    data-graph-filter="issue" aria-pressed="true">Issues / PRs</button>
+                            <button type="button" class="graph-filter active"
+                                    data-graph-filter="document" aria-pressed="true">Documents</button>
+                            <button type="button" class="graph-filter active"
+                                    data-graph-filter="commit" aria-pressed="true">Commits</button>
+                        </div>
+
+                        <label class="graph-older-toggle">
+                            <input id="graph-show-older" type="checkbox">
+                            Show older commits
+                        </label>
+                    </div>
+
+                    <div class="graph-container">
+
+                        <svg id="graph-svg"
+                             viewBox="0 0 1200 800"
+                             preserveAspectRatio="xMidYMid meet"
+                             role="img"
+                             aria-label="Interactive project knowledge graph"
+                             tabindex="0">
+                        </svg>
+
+                    </div>
+
+                    <div id="graph-detail" class="graph-detail">
+                        Select a graph node to see its information.
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ================================= -->
+            <!-- DECISION MEMORY -->
+            <!-- ================================= -->
+
+            <section class="view" id="view-decisions">
+
+                <div class="page-heading">
+
+                    <div>
+                        <div class="eyebrow">ENGINEERING DECISIONS</div>
+
+                        <h1>Decision Memory</h1>
+
+                        <p>
+                            Search persistent decision history, source-backed
+                            rationale, affected files and possible conflicts.
+                        </p>
+                    </div>
+
+                    <button class="button button-secondary"
+                            onclick="loadDecisions()">
+                        Refresh Decisions
+                    </button>
+
+                </div>
+
+
+                <div class="info-banner">
+                    <strong>Why this matters</strong>
+
+                    <p>
+                        Project Brain helps preserve the reasoning
+                        behind engineering choices, so future developers
+                        can understand why an implementation exists.
+                    </p>
+                </div>
+
+
+                <div class="stats-grid decision-stats">
+
+                    <article class="stat-card">
+                        <div class="stat-label">Identified Decisions</div>
+                        <div class="stat-value" id="decision-count">0</div>
+                        <div class="stat-description">
+                            Extracted from available project evidence
+                        </div>
+                    </article>
+
+                </div>
+
+                <div id="decision-conflicts"></div>
+
+                <div class="section-heading">
+                    <div>
+                        <h2>Documented Decisions</h2>
+                        <p>
+                            Verified decisions and uncertain candidates are
+                            labelled separately. Missing rationale is never
+                            filled in.
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="panel">
+                    <div id="decision-list" class="decision-list">
+                        <div class="empty-state">
+                            Decision information will appear here
+                            after your project is indexed.
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+
+
+            <!-- ================================= -->
+            <!-- ENGINEERING Q&A -->
+            <!-- ================================= -->
+
+            <section class="view" id="view-ask">
+
+                <div class="page-heading">
+
+                    <div>
+                        <div class="eyebrow">ASK YOUR PROJECT</div>
+
+                        <h1>Engineering Q&A</h1>
+
+                        <p>
+                            Ask questions about implementation,
+                            architecture, history and design decisions.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="panel question-panel">
+
+                    <div class="question-intro">
+                        <div class="question-icon">✳</div>
+
+                        <div>
+                            <h2>Ask Project Brain</h2>
+
+                            <p>
+                                Answers are based on the evidence
+                                available in your indexed project.
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <label for="question">
+                        Your engineering question
+                    </label>
+
+                    <textarea
+                        id="question"
+                        rows="4"
+                        placeholder="Example: Why was authentication implemented this way? Which files handle URL redirection? What changed in the latest version?"
+                    ></textarea>
+
+
+                    <div class="question-actions">
+
+                        <span class="muted-text">
+                            Ask specific questions for more useful evidence.
+                        </span>
+
+                        <button class="button button-primary"
+                                onclick="askBrain()">
+                            Ask Project Brain
+                        </button>
+
+                    </div>
+
+
+                    <div class="suggestion-area">
+
+                        <span class="suggestion-label">
+                            Example questions
+                        </span>
+
+                        <div class="suggestion-list">
+
+                            <button class="suggestion-chip"
+                                    onclick="setQuestion('Which files are responsible for the main application flow?')">
+                                Main application flow
+                            </button>
+
+                            <button class="suggestion-chip"
+                                    onclick="setQuestion('What important changes were made in the project history?')">
+                                Important changes
+                            </button>
+
+                            <button class="suggestion-chip"
+                                    onclick="setQuestion('What design decisions are documented in this project?')">
+                                Design decisions
+                            </button>
+
+                            <button class="suggestion-chip"
+                                    onclick="setQuestion('Which files are related to authentication?')">
+                                Authentication files
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="section-heading">
+                    <div>
+                        <h2>Answer and Evidence</h2>
+                        <p>
+                            Review the response and its supporting records.
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="panel answer-panel">
+
+                    <div id="answer-content">
+
+                        <div class="empty-state">
+                            Your answer will appear here.
+                            Ask a question to begin.
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ================================= -->
+            <!-- CHANGE IMPACT ANALYSIS -->
+            <!-- ================================= -->
+
+            <section class="view" id="view-impact">
+
+                <div class="page-heading">
+
+                    <div>
+                        <div class="eyebrow">CHANGE INTELLIGENCE</div>
+
+                        <h1>Change Impact Analysis</h1>
+
+                        <p>
+                            Explore potentially affected files,
+                            dependencies and historical relationships
+                            before changing your code.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="panel impact-input-panel">
+
+                    <h2>Describe a Proposed Change</h2>
+
+                    <p>
+                        Explain what you plan to modify.
+                        Include relevant file paths or component names
+                        when possible.
+                    </p>
+
+                    <label for="change-description">
+                        Proposed code change
+                    </label>
+
+                    <textarea
+                        id="change-description"
+                        rows="5"
+                        placeholder="Example: I want to modify the authentication logic in the login module. Identify related files, dependencies, historical changes and tests that should be reviewed."
+                    ></textarea>
+
+
+                    <div class="impact-actions">
+
+                        <span class="muted-text">
+                            Analysis uses available source and history data.
+                        </span>
+
+                        <button class="button button-primary"
+                                onclick="analyzeImpact()">
+                            Analyze Change Impact
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-banner warning-banner">
+
+                    <strong>Analysis limitation</strong>
+
+                    <p>
+                        Impact results are evidence-based estimates.
+                        Import relationships and historical patterns
+                        may not identify every possible dependency
+                        or runtime effect.
+                    </p>
+
+                </div>
+
+
+                <div class="section-heading">
+                    <div>
+                        <h2>Impact Analysis Results</h2>
+                        <p>
+                            Potentially affected components and supporting signals.
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="panel">
+
+                    <div id="impact-results">
+
+                        <div class="empty-state">
+                            Describe a proposed change and run the analysis
+                            to see potential impacts.
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ================================= -->
+            <!-- KNOWLEDGE RISK -->
+            <!-- ================================= -->
+
+            <section class="view" id="view-risk">
+
+                <div class="page-heading">
+
+                    <div>
+                        <div class="eyebrow">KNOWLEDGE CONTINUITY</div>
+
+                        <h1>Knowledge Risk</h1>
+
+                        <p>
+                            Identify files that may depend heavily
+                            on limited contributor knowledge.
+                        </p>
+                    </div>
+
+                    <button class="button button-secondary"
+                            onclick="loadRisk()">
+                        Refresh Risk Analysis
+                    </button>
+
+                </div>
+
+
+                <div class="info-banner warning-banner">
+
+                    <strong>Why knowledge risk matters</strong>
+
+                    <p>
+                        When only a small number of contributors have
+                        changed or maintained a file, important knowledge
+                        may be concentrated. This can create a continuity
+                        risk when contributors become unavailable.
+                    </p>
+
+                </div>
+
+
+                <div class="section-heading">
+                    <div>
+                        <h2>Knowledge Risk Assessment</h2>
+
+                        <p>
+                            Files ranked using available contributor
+                            and historical activity signals.
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="panel">
+
+                    <div id="risk-list">
+
+                        <div class="empty-state">
+                            Risk information will appear here
+                            after project history is imported.
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="small-note">
+                    Risk scores are heuristic indicators, not
+                    predictions of actual developer availability
+                    or project failure.
+                </div>
+
+            </section>
+
+
+            <!-- FOOTER -->
+
+            <footer class="page-footer">
+
+                <span>
+                    Project Brain · AI Engineering Memory
+                </span>
+
+                <div class="footer-links">
+                    <a href="/privacy">Privacy</a>
+                    <a href="/terms">Terms</a>
+                </div>
+
+            </footer>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- TOAST NOTIFICATION -->
+
+<div id="toast"
+     class="toast"
+     role="status"
+     aria-live="polite">
+</div>
+
+</body>
+</html>
